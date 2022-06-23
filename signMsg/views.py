@@ -1,3 +1,6 @@
+from http.client import HTTPResponse
+from django.http import JsonResponse
+import json
 from web3.auto import w3
 from django.shortcuts import render
 from eth_account.messages import encode_defunct
@@ -8,5 +11,6 @@ message = encode_defunct(text=msg)
 signed_message = w3.eth.account.sign_message(message, private_key=private_key)
 msghash = Web3.toHex(signed_message.messageHash)
 signature = signed_message.signature.hex()
-def getCoupon():
-    return msghash, signature
+def getCoupon(request):
+    j = {"msg":msghash,"sig":signature}
+    return JsonResponse(j)
